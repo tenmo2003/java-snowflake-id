@@ -36,7 +36,7 @@ class GeneratorTest {
         CountDownLatch doneLatch = new CountDownLatch(threadCount);
 
         for (int i = 0; i < threadCount; i++) {
-            Thread.ofVirtual().start(() -> {
+            new Thread(() -> {
                 try {
                     latch.await();
                     for (int j = 0; j < idsPerThread; j++) {
@@ -47,7 +47,7 @@ class GeneratorTest {
                 } finally {
                     doneLatch.countDown();
                 }
-            });
+            }).start();
         }
 
         latch.countDown();
